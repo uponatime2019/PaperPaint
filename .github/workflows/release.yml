@@ -1,0 +1,40 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Publish Standalone Unpackaged App
+        run: dotnet publish "PaperPaint.csproj" -c Release -p:Platform=x64 -o "publish/PaperPaint_Portable"
+
+      - name: Verify and Package Portable ZIP
+        shell: pwsh
+        run: |
+          if (-not (Test-Path 'publish/PaperPaint_Portable/resources.pri')) {
+            throw 'App PRI missing from publish output'
+          }
+          Compress-Archive -Path "publish/PaperPaint_Portable/*" -DestinationPath "PaperPaint-${{ github.ref_name }}-win-x64.zip"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: PaperPaint-*-win-x64.zip
+          generate_release_notes: true
+          overwrite: true

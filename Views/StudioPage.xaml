@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="PaperPaint.Views.StudioPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:PaperPaint"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prim="using:Microsoft.UI.Xaml.Controls.Primitives"
+    xmlns:canvas="using:Microsoft.Graphics.Canvas.UI.Xaml"
+    mc:Ignorable="d"
+    Background="{StaticResource PaperBrush}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- ================= top bar ================= -->
+        <Border Grid.Row="0" Background="{StaticResource PanelBrush}" Padding="10,6" BorderBrush="{StaticResource LineBrush}" BorderThickness="0,0,0,1">
+            <Grid ColumnSpacing="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Button Grid.Column="0" x:Name="HomeButton" Style="{StaticResource RailButton}" Click="HomeButton_Click"
+                        ToolTipService.ToolTip="Back to Home" AutomationProperties.Name="Back to Home">
+                    <FontIcon Glyph="&#xE700;" FontSize="16"/>
+                </Button>
+
+                <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center">
+                    <TextBlock Text="Paint Studio" FontSize="15" FontWeight="SemiBold" Foreground="{StaticResource InkBrush}"/>
+                    <TextBlock x:Name="PaintingNameText" Text="Untitled painting" FontSize="14" Foreground="{StaticResource SubtleBrush}"/>
+                </StackPanel>
+
+                <Border Grid.Column="2" x:Name="WetChip" CornerRadius="10" Background="#E1F0F4" Padding="10,3" VerticalAlignment="Center" Visibility="Collapsed"
+                        ToolTipService.ToolTip="Paint is still wet — use Dry Paint to set it">
+                    <StackPanel Orientation="Horizontal" Spacing="6">
+                        <FontIcon Glyph="&#xE706;" FontSize="14" Foreground="{StaticResource WetBrush}"/>
+                        <TextBlock Text="Wet paint" FontSize="14" Foreground="{StaticResource WetBrush}"/>
+                    </StackPanel>
+                </Border>
+
+                <StackPanel Grid.Column="4" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                    <Button x:Name="SaveButton" Style="{StaticResource PillButton}" Click="SaveButton_Click"
+                            ToolTipService.ToolTip="Save to My Artwork (Ctrl+S)" AutomationProperties.Name="Save painting">
+                        <StackPanel Orientation="Horizontal" Spacing="7">
+                            <FontIcon Glyph="&#xE74E;" FontSize="14"/>
+                            <TextBlock Text="Save"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="ExportButton" Style="{StaticResource PillButton}" Click="ExportButton_Click"
+                            ToolTipService.ToolTip="Export as PNG or JPEG (Ctrl+E)" AutomationProperties.Name="Export image">
+                        <StackPanel Orientation="Horizontal" Spacing="7">
+                            <FontIcon Glyph="&#xE8A5;" FontSize="14"/>
+                            <TextBlock Text="Export"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="PrintButton" Style="{StaticResource PillButton}" Click="PrintButton_Click"
+                            ToolTipService.ToolTip="Print (Ctrl+P)" AutomationProperties.Name="Print painting">
+                        <StackPanel Orientation="Horizontal" Spacing="7">
+                            <FontIcon Glyph="&#xE749;" FontSize="14"/>
+                            <TextBlock Text="Print"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="ShareButton" Style="{StaticResource PillButton}" Click="ShareButton_Click"
+                            ToolTipService.ToolTip="Share a snapshot" AutomationProperties.Name="Share painting">
+                        <StackPanel Orientation="Horizontal" Spacing="7">
+                            <FontIcon Glyph="&#xE72D;" FontSize="14"/>
+                            <TextBlock Text="Share"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- ================= middle ================= -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="46"/>
+                <ColumnDefinition Width="248"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- left command rail -->
+            <Border Grid.Column="0" Background="{StaticResource PanelBrush}" BorderBrush="{StaticResource LineBrush}" BorderThickness="0,0,1,0">
+                <StackPanel Orientation="Vertical" Spacing="4" HorizontalAlignment="Center" Margin="0,10,0,0">
+                    <Button Style="{StaticResource RailButton}" Click="RailUndo_Click" x:Name="RailUndoButton"
+                            ToolTipService.ToolTip="Undo (Ctrl+Z)" AutomationProperties.Name="Undo">
+                        <FontIcon Glyph="&#xE7A7;" FontSize="15"/>
+                    </Button>
+                    <Button Style="{StaticResource RailButton}" Click="RailRedo_Click" x:Name="RailRedoButton"
+                            ToolTipService.ToolTip="Redo (Ctrl+Y)" AutomationProperties.Name="Redo">
+                        <FontIcon Glyph="&#xE7A6;" FontSize="15"/>
+                    </Button>
+                    <Rectangle Height="1" Fill="{StaticResource LineBrush}" Margin="4,6"/>
+                    <Button Style="{StaticResource RailButton}" Click="ImportButton_Click"
+                            ToolTipService.ToolTip="Import a photo to paint on (Ctrl+O)" AutomationProperties.Name="Import photo">
+                        <FontIcon Glyph="&#xE8E5;" FontSize="15"/>
+                    </Button>
+                    <Button Style="{StaticResource RailButton}" Click="CameraButton_Click"
+                            ToolTipService.ToolTip="Take a photo with the camera" AutomationProperties.Name="Camera">
+                        <FontIcon Glyph="&#xE722;" FontSize="15"/>
+                    </Button>
+                    <Button Style="{StaticResource RailButton}" Click="ColoringButton_Click"
+                            ToolTipService.ToolTip="Browse coloring pages" AutomationProperties.Name="Coloring pages">
+                        <FontIcon Glyph="&#xE790;" FontSize="15"/>
+                    </Button>
+                </StackPanel>
+            </Border>
+
+            <!-- tool / palette panel -->
+            <Border Grid.Column="1" Background="{StaticResource WellBrush}" BorderBrush="{StaticResource LineBrush}" BorderThickness="0,0,1,0">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollMode="Disabled" Padding="12,10,12,16">
+                    <StackPanel Orientation="Vertical" Spacing="10">
+
+                        <TextBlock Text="Brushes" FontSize="14" FontWeight="SemiBold" Foreground="{StaticResource InkBrush}"/>
+                        <Grid ColumnSpacing="6" RowSpacing="6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <prim:ToggleButton Grid.Row="0" Grid.Column="0" x:Name="ToolPen" Style="{StaticResource ToolToggleStyle}" Checked="ToolButton_Checked" Tag="Pen"
+                                               ToolTipService.ToolTip="Pen — crisp ink line (1)" AutomationProperties.Name="Pen tool">
+                                <StackPanel Orientation="Vertical" Spacing="2">
+                                    <FontIcon Glyph="&#xE70F;" FontSize="16"/>
+                                    <TextBlock Text="Pen" FontSize="14"/>
+                                </StackPanel>
+                            </prim:ToggleButton>
+                            <prim:ToggleButton Grid.Row="0" Grid.Column="1" x:Name="ToolPencil" Style="{StaticResource ToolToggleStyle}" Checked="ToolButton_Checked" Tag="Pencil"
+                                               ToolTipService.ToolTip="Pencil — grainy graphite (2)" AutomationProperties.Name="Pencil tool">
+                                <StackPanel Orientation="Vertical" Spacing="2">
+                                    <FontIcon Glyph="&#xE8AC;" FontSize="16"/>
+                                    <TextBlock Text="Pencil" FontSize="14"/>
+                                </StackPanel>
+                            </prim:ToggleButton>
+                            <prim:ToggleButton Grid.Row="1" Grid.Column="0" x:Name="ToolWatercolor" Style="{StaticResource ToolToggleStyle}" Checked="ToolButton_Checked" Tag="Watercolor"
+                                               ToolTipService.ToolTip="Watercolor — soft translucent wash (3)" AutomationProperties.Name="Watercolor tool">
+                                <StackPanel Orientation="Vertical" Spacing="2">
+                                    <FontIcon Glyph="&#xE768;" FontSize="16"/>
+                                    <TextBlock Text="Watercolor" FontSize="14"/>
+                                </StackPanel>
+                            </prim:ToggleButton>
+                            <prim:ToggleButton Grid.Row="1" Grid.Column="1" x:Name="ToolOil" Style="{StaticResource ToolToggleStyle}" Checked="ToolButton_Checked" Tag="Oil"
+                                               ToolTipService.ToolTip="Oil — thick impasto strokes (4)" AutomationProperties.Name="Oil tool">
+                                <StackPanel Orientation="Vertical" Spacing="2">
+                                    <FontIcon Glyph="&#xE771;" FontSize="16"/>
+                                    <TextBlock Text="Oil" FontSize="14"/>
+                                </StackPanel>
+                            </prim:ToggleButton>
+                            <prim:ToggleButton Grid.Row="2" Grid.Column="0" x:Name="ToolPastel" Style="{StaticResource ToolToggleStyle}" Checked="ToolButton_Checked" Tag="Pastel"
+                                               ToolTipService.ToolTip="Pastel — chalky dabs (5)" AutomationProperties.Name="Pastel tool">
+                                <StackPanel Orientation="Vertical" Spacing="2">
+                                    <FontIcon Glyph="&#xE790;" FontSize="16"/>
+                                    <TextBlock Text="Pastel" FontSize="14"/>
+                                </StackPanel>
+                            </prim:ToggleButton>
+                            <prim:ToggleButton Grid.Row="2" Grid.Column="1" x:Name="ToolEraser" Style="{StaticResource ToolToggleStyle}" Checked="ToolButton_Checked" Tag="Eraser"
+                                               ToolTipService.ToolTip="Eraser — lifts paint back to the page (6)" AutomationProperties.Name="Eraser tool">
+                                <StackPanel Orientation="Vertical" Spacing="2">
+                                    <FontIcon Glyph="&#xE75C;" FontSize="16"/>
+                                    <TextBlock Text="Eraser" FontSize="14"/>
+                                </StackPanel>
+                            </prim:ToggleButton>
+                        </Grid>
+
+                        <Rectangle Height="1" Fill="{StaticResource LineBrush}" Margin="0,4"/>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Brush size" FontSize="14" Foreground="{StaticResource InkBrush}" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="1" x:Name="SizeValueText" Text="14 px" FontSize="14" Foreground="{StaticResource SubtleBrush}" VerticalAlignment="Center"/>
+                        </Grid>
+                        <Slider x:Name="SizeSlider" Minimum="2" Maximum="80" StepFrequency="1" Value="14" ValueChanged="SizeSlider_ValueChanged"
+                                ToolTipService.ToolTip="Brush size"/>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Opacity" FontSize="14" Foreground="{StaticResource InkBrush}" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="1" x:Name="OpacityValueText" Text="100%" FontSize="14" Foreground="{StaticResource SubtleBrush}" VerticalAlignment="Center"/>
+                        </Grid>
+                        <Slider x:Name="OpacitySlider" Minimum="10" Maximum="100" StepFrequency="1" Value="100" ValueChanged="OpacitySlider_ValueChanged"
+                                ToolTipService.ToolTip="Brush opacity"/>
+
+                        <Rectangle Height="1" Fill="{StaticResource LineBrush}" Margin="0,4"/>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Colors" FontSize="14" FontWeight="SemiBold" Foreground="{StaticResource InkBrush}" VerticalAlignment="Center"/>
+                            <Button Grid.Column="1" x:Name="AddColorButton" Style="{StaticResource RailButton}" Width="28" Height="28" Click="AddColorButton_Click"
+                                    ToolTipService.ToolTip="Add a custom color" AutomationProperties.Name="Add custom color">
+                                <FontIcon Glyph="&#xE710;" FontSize="14"/>
+                                <Button.Flyout>
+                                    <Flyout x:Name="ColorFlyout" Placement="Bottom">
+                                        <StackPanel Width="260" Spacing="12">
+                                            <TextBlock Text="Pick a color" FontSize="14" FontWeight="SemiBold"/>
+                                            <ColorPicker x:Name="CustomColorPicker" IsAlphaEnabled="False" IsColorPreviewVisible="True" ColorChanged="CustomColorPicker_ColorChanged"/>
+                                            <Button Content="Add to palette" Style="{StaticResource PillButton}" HorizontalAlignment="Stretch" Click="ConfirmAddColor_Click"/>
+                                        </StackPanel>
+                                    </Flyout>
+                                </Button.Flyout>
+                            </Button>
+                        </Grid>
+                        <Grid x:Name="PaletteHost" HorizontalAlignment="Left"/>
+
+                        <Rectangle Height="1" Fill="{StaticResource LineBrush}" Margin="0,4"/>
+
+                        <Button x:Name="DryButton" Click="DryButton_Click" HorizontalAlignment="Stretch" CornerRadius="8" Padding="10,8"
+                                Background="{StaticResource AccentSoftBrush}" BorderBrush="{StaticResource AccentBrush}" BorderThickness="1"
+                                Foreground="{StaticResource InkBrush}"
+                                ToolTipService.ToolTip="Commits wet strokes so new paint stops blending with them (Ctrl+D)" AutomationProperties.Name="Dry paint">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <FontIcon Glyph="&#xE706;" FontSize="15" Foreground="{StaticResource AccentBrush}"/>
+                                <TextBlock Text="Dry Paint" FontSize="14"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button x:Name="ClearButton" Click="ClearButton_Click" HorizontalAlignment="Stretch" CornerRadius="8" Padding="10,8"
+                                Background="{StaticResource CardBrush}" BorderBrush="{StaticResource LineBrush}" BorderThickness="1"
+                                Foreground="{StaticResource InkBrush}"
+                                ToolTipService.ToolTip="Clears the painting (keeps a coloring page's line art)" AutomationProperties.Name="Clear canvas">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <FontIcon Glyph="&#xE74D;" FontSize="15" Foreground="#C0392B"/>
+                                <TextBlock Text="Clear Canvas" FontSize="14"/>
+                            </StackPanel>
+                        </Button>
+
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+
+            <!-- canvas desk -->
+            <Grid Grid.Column="2" Background="{StaticResource DeskBrush}">
+                <canvas:CanvasControl
+                    x:Name="PaintCanvas"
+                    Draw="PaintCanvas_Draw"
+                    CreateResources="PaintCanvas_CreateResources"
+                    PointerPressed="PaintCanvas_PointerPressed"
+                    PointerMoved="PaintCanvas_PointerMoved"
+                    PointerReleased="PaintCanvas_PointerReleased"
+                    PointerCanceled="PaintCanvas_PointerReleased"
+                    PointerWheelChanged="PaintCanvas_PointerWheelChanged"/>
+            </Grid>
+        </Grid>
+
+        <!-- ================= bottom floating controls ================= -->
+        <Border Grid.Row="2" Background="{StaticResource PanelBrush}" BorderBrush="{StaticResource LineBrush}" BorderThickness="0,1,0,0" Padding="12,7">
+            <StackPanel Orientation="Horizontal" Spacing="6" HorizontalAlignment="Center">
+                <Button x:Name="BottomUndo" Style="{StaticResource RailButton}" Width="36" Height="34" Click="RailUndo_Click"
+                        ToolTipService.ToolTip="Undo (Ctrl+Z)" AutomationProperties.Name="Undo">
+                    <FontIcon Glyph="&#xE7A7;" FontSize="14"/>
+                </Button>
+                <Button x:Name="BottomRedo" Style="{StaticResource RailButton}" Width="36" Height="34" Click="RailRedo_Click"
+                        ToolTipService.ToolTip="Redo (Ctrl+Y)" AutomationProperties.Name="Redo">
+                    <FontIcon Glyph="&#xE7A6;" FontSize="14"/>
+                </Button>
+
+                <Rectangle Width="1" Fill="{StaticResource LineBrush}" Margin="6,4"/>
+
+                <Button Style="{StaticResource RailButton}" Width="36" Height="34" Click="FitButton_Click"
+                        ToolTipService.ToolTip="Fit painting to window (Ctrl+0)" AutomationProperties.Name="Fit to window">
+                    <FontIcon Glyph="&#xE740;" FontSize="14"/>
+                </Button>
+                <Button Style="{StaticResource RailButton}" Width="36" Height="34" Click="ZoomOutButton_Click"
+                        ToolTipService.ToolTip="Zoom out (-)" AutomationProperties.Name="Zoom out">
+                    <FontIcon Glyph="&#xE711;" FontSize="14"/>
+                </Button>
+                <Button Style="{StaticResource PillButton}" Click="ZoomResetButton_Click" MinWidth="72" Padding="8,0"
+                        ToolTipService.ToolTip="Reset zoom to 100%" AutomationProperties.Name="Zoom level">
+                    <TextBlock x:Name="ZoomText" Text="100%" FontSize="14" HorizontalAlignment="Center"/>
+                </Button>
+                <Button Style="{StaticResource RailButton}" Width="36" Height="34" Click="ZoomInButton_Click"
+                        ToolTipService.ToolTip="Zoom in (+)" AutomationProperties.Name="Zoom in">
+                    <FontIcon Glyph="&#xE710;" FontSize="14"/>
+                </Button>
+
+                <Rectangle Width="1" Fill="{StaticResource LineBrush}" Margin="6,4"/>
+
+                <Button x:Name="BottomDry" Style="{StaticResource RailButton}" Width="36" Height="34" Click="DryButton_Click"
+                        ToolTipService.ToolTip="Dry Paint (Ctrl+D)" AutomationProperties.Name="Dry paint">
+                    <FontIcon Glyph="&#xE706;" FontSize="14" Foreground="{StaticResource AccentBrush}"/>
+                </Button>
+                <Button Style="{StaticResource RailButton}" Width="36" Height="34" Click="ShareButton_Click"
+                        ToolTipService.ToolTip="Share a snapshot" AutomationProperties.Name="Share painting">
+                    <FontIcon Glyph="&#xE72D;" FontSize="14"/>
+                </Button>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Page>

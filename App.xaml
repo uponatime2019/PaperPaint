@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Application
+    x:Class="PaperPaint.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:PaperPaint"
+    xmlns:prim="using:Microsoft.UI.Xaml.Controls.Primitives">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- Paper / studio palette -->
+            <SolidColorBrush x:Key="PaperBrush" Color="#FBF8F2"/>
+            <SolidColorBrush x:Key="PanelBrush" Color="#F2EDE3"/>
+            <SolidColorBrush x:Key="WellBrush" Color="#ECE6D9"/>
+            <SolidColorBrush x:Key="DeskBrush" Color="#E7E0D2"/>
+            <SolidColorBrush x:Key="CardBrush" Color="#FFFFFF"/>
+            <SolidColorBrush x:Key="LineBrush" Color="#E0D7C6"/>
+            <SolidColorBrush x:Key="InkBrush" Color="#33291F"/>
+            <SolidColorBrush x:Key="SubtleBrush" Color="#8B8172"/>
+            <SolidColorBrush x:Key="AccentBrush" Color="#E8743B"/>
+            <SolidColorBrush x:Key="AccentSoftBrush" Color="#FBE3D5"/>
+            <SolidColorBrush x:Key="BlueBrush" Color="#3B6FE8"/>
+            <SolidColorBrush x:Key="BlueSoftBrush" Color="#DEE8FC"/>
+            <SolidColorBrush x:Key="GreenBrush" Color="#3FA66A"/>
+            <SolidColorBrush x:Key="GreenSoftBrush" Color="#DCF0E4"/>
+            <SolidColorBrush x:Key="WetBrush" Color="#2E9BB5"/>
+
+            <CornerRadius x:Key="CardCorner">10,10,10,10</CornerRadius>
+
+            <Style x:Key="SectionText" TargetType="TextBlock">
+                <Setter Property="FontSize" Value="21"/>
+                <Setter Property="FontWeight" Value="SemiBold"/>
+                <Setter Property="Foreground" Value="{StaticResource InkBrush}"/>
+                <Setter Property="Margin" Value="0,24,0,10"/>
+            </Style>
+
+            <Style x:Key="SubText" TargetType="TextBlock">
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="Foreground" Value="{StaticResource SubtleBrush}"/>
+            </Style>
+
+            <Style x:Key="CardButton" TargetType="Button">
+                <Setter Property="Background" Value="{StaticResource CardBrush}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource LineBrush}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="CornerRadius" Value="10"/>
+                <Setter Property="Padding" Value="14,10"/>
+                <Setter Property="Foreground" Value="{StaticResource InkBrush}"/>
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="Width" Value="300" />
+            </Style>
+
+            <Style x:Key="RailButton" TargetType="Button">
+                <Setter Property="Width" Value="40"/>
+                <Setter Property="Height" Value="40"/>
+                <Setter Property="CornerRadius" Value="8"/>
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="Foreground" Value="{StaticResource InkBrush}"/>
+            </Style>
+
+            <Style x:Key="ToolToggleStyle" TargetType="prim:ToggleButton">
+                <Setter Property="MinWidth" Value="104"/>
+                <Setter Property="Height" Value="58"/>
+                <Setter Property="CornerRadius" Value="8"/>
+                <Setter Property="Background" Value="{StaticResource CardBrush}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource LineBrush}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="Foreground" Value="{StaticResource InkBrush}"/>
+                <Setter Property="Padding" Value="6,4"/>
+                <Setter Property="FontSize" Value="14"/>
+            </Style>
+
+            <Style x:Key="PillButton" TargetType="Button">
+                <Setter Property="Height" Value="36"/>
+                <Setter Property="CornerRadius" Value="18"/>
+                <Setter Property="Padding" Value="14,0"/>
+                <Setter Property="Background" Value="{StaticResource CardBrush}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource LineBrush}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="Foreground" Value="{StaticResource InkBrush}"/>
+                <Setter Property="FontSize" Value="14"/>
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

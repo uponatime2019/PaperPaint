@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentDialog
+    x:Class="PaperPaint.Views.CameraDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Take a photo"
+    PrimaryButtonText="Use photo"
+    CloseButtonText="Cancel"
+    DefaultButton="Primary"
+    Opened="OnOpened"
+    Closing="OnClosing"
+    Closed="OnClosed">
+
+    <StackPanel Width="480" Spacing="12">
+        <Border CornerRadius="10" Background="#201B16" Height="330">
+            <MediaPlayerElement x:Name="Preview" AutoPlay="True" Stretch="Uniform"/>
+        </Border>
+
+        <InfoBar x:Name="Status" IsOpen="False" IsClosable="False" Severity="Warning"/>
+
+        <StackPanel Orientation="Horizontal" Spacing="10">
+            <ProgressRing x:Name="Busy" IsActive="True" Width="22" Height="22" VerticalAlignment="Center"/>
+            <TextBlock x:Name="Hint" Text="Starting the camera…" FontSize="14" Foreground="{StaticResource SubtleBrush}" VerticalAlignment="Center"/>
+        </StackPanel>
+    </StackPanel>
+</ContentDialog>

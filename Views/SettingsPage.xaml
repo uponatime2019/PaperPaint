@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="PaperPaint.Views.SettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{StaticResource PaperBrush}">
+
+    <ScrollViewer HorizontalScrollMode="Disabled" VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="28,24,28,32" Spacing="6" HorizontalAlignment="Left">
+
+            <TextBlock Text="Settings &amp; About" FontSize="26" FontWeight="Bold" Foreground="{StaticResource InkBrush}"/>
+
+            <!-- input guidance -->
+            <TextBlock Text="Drawing &amp; touch input" Style="{StaticResource SectionText}"/>
+            <Border Background="{StaticResource CardBrush}" BorderBrush="{StaticResource LineBrush}" BorderThickness="1"
+                    CornerRadius="{StaticResource CardCorner}" Padding="16,12">
+                <StackPanel Orientation="Vertical" Spacing="8">
+                    <TextBlock Text="• Pen / stylus — pressure changes stroke width; barrel button or right-click pans." Style="{StaticResource SubText}" TextWrapping="Wrap"/>
+                    <TextBlock Text="• Mouse — draw with the left button, pan with the middle button or right button, zoom with the wheel." Style="{StaticResource SubText}" TextWrapping="Wrap"/>
+                    <TextBlock Text="• Touch — one finger paints, two fingers pinch to zoom and pan." Style="{StaticResource SubText}" TextWrapping="Wrap"/>
+                    <TextBlock Text="• Wet strokes bloom until you use Dry Paint — like real watercolor." Style="{StaticResource SubText}" TextWrapping="Wrap"/>
+                </StackPanel>
+            </Border>
+
+            <!-- shortcuts -->
+            <TextBlock Text="Keyboard shortcuts" Style="{StaticResource SectionText}"/>
+            <Border Background="{StaticResource CardBrush}" BorderBrush="{StaticResource LineBrush}" BorderThickness="1"
+                    CornerRadius="{StaticResource CardCorner}" Padding="16,12">
+                <StackPanel Orientation="Vertical" Spacing="8">
+                    <TextBlock Text="Ctrl+Z undo · Ctrl+Y / Ctrl+Shift+Z redo" Style="{StaticResource SubText}"/>
+                    <TextBlock Text="Ctrl+S save · Ctrl+E export · Ctrl+P print · Ctrl+O import photo" Style="{StaticResource SubText}"/>
+                    <TextBlock Text="Ctrl+D dry paint · Ctrl+0 fit painting to window" Style="{StaticResource SubText}"/>
+                    <TextBlock Text="1–6 pen, pencil, watercolor, oil, pastel, eraser" Style="{StaticResource SubText}"/>
+                </StackPanel>
+            </Border>
+
+            <!-- permissions -->
+            <TextBlock Text="Permissions &amp; privacy" Style="{StaticResource SectionText}"/>
+            <Border Background="{StaticResource CardBrush}" BorderBrush="{StaticResource LineBrush}" BorderThickness="1"
+                    CornerRadius="{StaticResource CardCorner}" Padding="16,12">
+                <StackPanel Orientation="Vertical" Spacing="8">
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                        <FontIcon Glyph="&#xE722;" FontSize="16" Foreground="{StaticResource GreenBrush}" VerticalAlignment="Top" Margin="0,2,0,0"/>
+                        <TextBlock Text="Camera — used only while the camera dialog is open, to capture a photo you choose to paint on. Nothing is uploaded; the capture goes straight to your canvas. You can revoke access anytime in Windows Settings › Privacy &amp; security › Camera."
+                                   Style="{StaticResource SubText}" TextWrapping="Wrap"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                        <FontIcon Glyph="&#xE8E5;" FontSize="16" Foreground="{StaticResource BlueBrush}" VerticalAlignment="Top" Margin="0,2,0,0"/>
+                        <TextBlock Text="Pictures library — the import picker opens files you pick yourself. The app has no broad library access."
+                                   Style="{StaticResource SubText}" TextWrapping="Wrap"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                        <FontIcon Glyph="&#xE72D;" FontSize="16" Foreground="{StaticResource AccentBrush}" VerticalAlignment="Top" Margin="0,2,0,0"/>
+                        <TextBlock Text="Share &amp; print — snapshots are handed to Windows only when you tap Share or Print."
+                                   Style="{StaticResource SubText}" TextWrapping="Wrap"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- about -->
+            <TextBlock Text="About" Style="{StaticResource SectionText}"/>
+            <Border Background="{StaticResource CardBrush}" BorderBrush="{StaticResource LineBrush}" BorderThickness="1"
+                    CornerRadius="{StaticResource CardCorner}" Padding="16,12">
+                <StackPanel Orientation="Vertical" Spacing="6">
+                    <TextBlock x:Name="VersionText" Text="Paper Paint" FontSize="15" FontWeight="SemiBold" Foreground="{StaticResource InkBrush}"/>
+                    <TextBlock Text="A Paper Paint studio: wet watercolor, grainy pastel, thick oil and quiet paper — everything saved on your device."
+                               Style="{StaticResource SubText}" TextWrapping="Wrap"/>
+                    <TextBlock Text="Artwork, custom colors and settings never leave this device." Style="{StaticResource SubText}" TextWrapping="Wrap"/>
+                    <Button Style="{StaticResource PillButton}" Click="OpenDataFolder_Click" Margin="0,8,0,0"
+                            ToolTipService.ToolTip="Opens the folder where paintings are stored"
+                            AutomationProperties.Name="Open painting data folder">
+                        <StackPanel Orientation="Horizontal" Spacing="7">
+                            <FontIcon Glyph="&#xE838;" FontSize="14"/>
+                            <TextBlock Text="Open painting data folder"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
+</Page>

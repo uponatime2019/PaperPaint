@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="PaperPaint.Views.EffectsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{StaticResource PaperBrush}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- top bar -->
+        <Border Grid.Row="0" Background="{StaticResource PanelBrush}" Padding="14,8" BorderBrush="{StaticResource LineBrush}" BorderThickness="0,0,0,1">
+            <StackPanel Orientation="Horizontal" Spacing="12">
+                <Button Style="{StaticResource RailButton}" Click="BackButton_Click"
+                        ToolTipService.ToolTip="Back to Home" AutomationProperties.Name="Back to Home">
+                    <FontIcon Glyph="&#xE72B;" FontSize="15"/>
+                </Button>
+                <StackPanel Orientation="Vertical" VerticalAlignment="Center" Spacing="1">
+                    <TextBlock Text="Import &amp; Effects" FontSize="16" FontWeight="SemiBold" Foreground="{StaticResource InkBrush}"/>
+                    <TextBlock x:Name="SourceNameText" Text="Photo" FontSize="14" Foreground="{StaticResource SubtleBrush}"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <!-- body -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="316"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- preview -->
+            <Border Grid.Column="0" Background="{StaticResource DeskBrush}" Padding="24">
+                <Border Background="White" CornerRadius="6" BorderBrush="{StaticResource LineBrush}" BorderThickness="1"
+                        MaxWidth="900" MaxHeight="660" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Image x:Name="PreviewImage" Stretch="Uniform" MaxWidth="852" MaxHeight="612"/>
+                </Border>
+            </Border>
+
+            <!-- effects panel -->
+            <Border Grid.Column="1" Background="{StaticResource WellBrush}" BorderBrush="{StaticResource LineBrush}" BorderThickness="1,0,0,0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <ScrollViewer Grid.Row="0" Padding="16,14,16,8">
+                        <StackPanel Orientation="Vertical" Spacing="10">
+                            <TextBlock Text="Photo effects" FontSize="15" FontWeight="SemiBold" Foreground="{StaticResource InkBrush}"/>
+                            <TextBlock Text="Choose a look, then start painting on it."
+                                       FontSize="14" Foreground="{StaticResource SubtleBrush}" TextWrapping="Wrap"/>
+
+                            <StackPanel x:Name="EffectList" Orientation="Vertical" Spacing="8" Margin="0,4,0,0"/>
+                        </StackPanel>
+                    </ScrollViewer>
+
+                    <StackPanel Grid.Row="1" Orientation="Vertical" Spacing="10" Padding="16,10,16,16"
+                                BorderBrush="{StaticResource LineBrush}" BorderThickness="0,1,0,0"
+                                Background="{StaticResource PanelBrush}">
+                        <Button x:Name="StartButton" Click="StartButton_Click" HorizontalAlignment="Stretch" CornerRadius="10" Padding="12,11"
+                                Background="{StaticResource AccentBrush}" Foreground="White" BorderThickness="0" FontSize="14" FontWeight="SemiBold"
+                                ToolTipService.ToolTip="Open this image in the Paint Studio"
+                                AutomationProperties.Name="Start painting">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <FontIcon Glyph="&#xE70F;" FontSize="15"/>
+                                <TextBlock Text="Start Painting"/>
+                            </StackPanel>
+                        </Button>
+                        <StackPanel Orientation="Horizontal" Spacing="10" Visibility="Collapsed" x:Name="BusyRow">
+                            <ProgressRing Width="20" Height="20" IsActive="True"/>
+                            <TextBlock Text="Applying effect at full size…" FontSize="14" Foreground="{StaticResource SubtleBrush}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</Page>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="PaperPaint.Views.ColoringGalleryPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:PaperPaint.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{StaticResource PaperBrush}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Vertical" Spacing="2" Margin="28,22,28,0">
+            <TextBlock Text="Coloring Pages" FontSize="26" FontWeight="Bold" Foreground="{StaticResource InkBrush}"/>
+            <TextBlock Text="Pick a page, grab a brush and color it in." Style="{StaticResource SubText}"/>
+        </StackPanel>
+
+        <!-- category chips -->
+        <StackPanel Grid.Row="1" x:Name="FilterRow" Orientation="Horizontal" Spacing="8" Margin="28,14,28,4"/>
+
+        <ScrollViewer Grid.Row="2" HorizontalScrollMode="Disabled" VerticalScrollBarVisibility="Auto" Padding="28,8,28,24">
+            <GridView
+                x:Name="PagesGrid"
+                IsItemClickEnabled="True"
+                SelectionMode="None"
+                ItemClick="PagesGrid_ItemClick"
+                ItemContainerTransitions="{x:Null}">
+                <GridView.ItemTemplate>
+                    <DataTemplate x:DataType="local:ColoringCard">
+                        <StackPanel Width="212" Spacing="0" Margin="0,0,0,6">
+                            <Border CornerRadius="10" Background="White" BorderBrush="{StaticResource LineBrush}" BorderThickness="1"
+                                    Padding="6" HorizontalAlignment="Stretch">
+                                <Image Source="{x:Bind Thumb}" Width="196" Height="147" Stretch="Uniform"/>
+                            </Border>
+                            <StackPanel Orientation="Horizontal" Spacing="6" Margin="4,8,4,0">
+                                <TextBlock Text="{x:Bind Def.Title}" FontSize="14" FontWeight="SemiBold"
+                                           Foreground="{StaticResource InkBrush}" VerticalAlignment="Center"/>
+                            </StackPanel>
+                            <TextBlock Text="{x:Bind Def.Category}" FontSize="14" Foreground="{StaticResource SubtleBrush}" Margin="4,1,4,0"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
+        </ScrollViewer>
+    </Grid>
+</Page>

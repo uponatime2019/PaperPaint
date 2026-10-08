@@ -1,0 +1,33 @@
+## Build and output
+[Bb]in/
+[Oo]bj/
+publish/
+publish_out/
+*.zip
+
+## Visual Studio
+.vs/
+*.user
+*.userprefs
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Visual Studio Code
+.vscode/
+
+## JetBrains Rider
+.idea/
+
+## Packaging and Store Artifacts
+*.appx
+*.msix
+*.msixbundle
+*.appxbundle
+AppPackages/
+BundleArtifacts/
+Package.StoreAssociation.xml
+
+## Logs and temporary files
+*.log
+_ReSharper*/
